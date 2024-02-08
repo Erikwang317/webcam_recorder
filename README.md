@@ -25,3 +25,30 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+# Webcam Recorder Project
+
+This project enables users to record videos from their webcam and upload them to Firebase Storage. The videos' metadata is stored in the Firebase Realtime Database.
+
+## Features
+
+- Video recording from the webcam
+- Video playback and review
+- Video redo functionality
+- Video upload to Firebase Storage
+- Metadata storage in Firebase Realtime Database
+
+## Prerequisites
+
+- Node.js and npm installed
+- Angular CLI installed
+- Firebase project setup with Firebase Storage and Realtime Database
+
+## Setup Instructions
+
+1. **Clone the repository:**
+
+```bash
+git clone <repository_url>
+cd webcam_recorder
+
