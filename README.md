@@ -26,6 +26,8 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
+
+
 # Webcam Recorder Project
 
 This project enables users to record videos from their webcam and upload them to Firebase Storage. The videos' metadata is stored in the Firebase Realtime Database.
