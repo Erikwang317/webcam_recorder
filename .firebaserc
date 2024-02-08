@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "webcam-recorder-d5ef6": {
+      "hosting": {
+        "frontend": [
+          "webcam-recorder-d5ef6"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "webcam-recorder-d5ef6"
+  }
+}

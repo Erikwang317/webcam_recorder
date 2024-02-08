@@ -1,0 +1,32 @@
+<router-outlet></router-outlet>
+<div class="container">
+  <div class="button-container">
+    <button *ngIf="state === 'NONE'" (click)="startRecording()" class="btn btn-primary">
+      Start record
+    </button>
+    <button *ngIf="state === 'RECORDING'" (click)="stopRecording()" class="btn btn-secondary">
+      Stop record
+    </button>
+    <button *ngIf="state === 'CONFIRMED'" (click)="downloadRecording()" class="btn btn-success">
+      Download video
+    </button>
+    <button *ngIf="state === 'STOPPED'" (click)="clearRecording()" class="btn btn-danger">
+      Clear record
+    </button>
+    <button *ngIf="state === 'STOPPED'" (click)="redoRecording()" class="btn btn-warning">
+      Redo record
+    </button>
+    <button *ngIf="state === 'STOPPED'" (click)="reviewRecording()" class="btn btn-info">
+      Review record
+    </button>
+    <button *ngIf="state === 'STOPPED'" (click)="confirmRecording()" class="btn btn-light">
+      Confirm record
+    </button>
+  </div>
+  <div class="video-container">
+    <video #videoElement controls autoplay playsInline>
+      <source [src]="videoBlobUrl" type="video/webm" />
+    </video>
+  </div>
+</div>
+

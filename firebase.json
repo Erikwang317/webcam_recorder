@@ -1,0 +1,13 @@
+{
+  "hosting": [
+    {
+      "target": "frontend",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ],
+  "storage": {
+    "rules": "storage.rules"
+  }
+  
+}
