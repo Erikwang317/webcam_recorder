@@ -1,55 +1,67 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RecordingService } from './recording.service';
+import { Subscription } from 'rxjs';
+import { StarsComponent } from './stars/stars.component';
 
-type RecordingState = 'NONE' | 'RECORDING' | 'STOPPED' | 'CONFIRMED';
+enum RecordingState {
+  NONE = 'NONE',
+  RECORDING = 'RECORDING',
+  STOPPED = 'STOPPED',
+  CONFIRMED = 'CONFIRMED',
+}
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, StarsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  @ViewChild('videoElement') videoElement: any;
+  @ViewChild('videoElement') videoElement?: ElementRef<HTMLVideoElement>;
   title = 'frontend';
   videoBlobUrl: any = null;
   video: any;
-  state: RecordingState = 'NONE';
+  state: RecordingState = RecordingState.NONE;
+  private subscriptions = new Subscription();
 
   constructor(
     private RecordingService: RecordingService,
     private ref: ChangeDetectorRef,
     private sanitizer: DomSanitizer
   ) {
-    this.RecordingService.getMediaStream().subscribe((data) => {
+    this.subscriptions.add(this.RecordingService.getMediaStream().subscribe((data) => {
       this.video.srcObject = data;
       this.ref.detectChanges();
-    });
-    this.RecordingService.getBlob().subscribe((data) => {
+    }));
+    this.subscriptions.add(this.RecordingService.getBlob().subscribe((data) => {
       this.videoBlobUrl = this.sanitizer.bypassSecurityTrustUrl(data);
       this.video.srcObject = null;
       this.ref.detectChanges();
-    });
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   ngAfterViewInit(): void {
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     //Add 'implements AfterViewInit' to the class.
-    this.video = this.videoElement.nativeElement;
+    this.video = this.videoElement?.nativeElement;
   }
 
   startRecording() {
     this.RecordingService.startRecording();
-    this.state = 'RECORDING';
+    this.state = RecordingState.RECORDING;
   }
 
   stopRecording() {
     this.RecordingService.stopRecording();
-    this.state = 'STOPPED';
+    this.state = RecordingState.STOPPED;
   }
 
   downloadRecording() {
@@ -60,7 +72,7 @@ export class AppComponent {
     this.RecordingService.clearRecording();
     this.video.srcObject = null;
     this.videoBlobUrl = null;
-    this.state = 'NONE';
+    this.state = RecordingState.NONE;
   }
 
   reviewRecording() {
@@ -73,11 +85,11 @@ export class AppComponent {
 
   redoRecording() {
     this.RecordingService.redoRecording();
-    this.state = 'RECORDING';
+    this.state = RecordingState.RECORDING;
   }
 
   confirmRecording(){
     this.RecordingService.confirmRecording();
-    this.state = 'CONFIRMED';
+    this.state = RecordingState.CONFIRMED;
   }
 }
